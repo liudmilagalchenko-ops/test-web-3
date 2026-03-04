@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luda Galchenko — Product Designer</title>
+<style>
+  :root {
+    --bg: #f5f4f0; --fg: #1a1a1a; --muted: #6b6b6b; --accent: #2d2d2d;
+    --card-bg: #ffffff; --tag-bg: #ebebeb; --border: #e0ddd6; --hover: #f0ede8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: 'Georgia', serif; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem; position: sticky; top: 0; background: var(--bg);
+    z-index: 100; border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-size: 1rem; font-weight: 400; letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 2rem; font-size: 0.875rem; color: var(--muted); font-family: 'Helvetica Neue', sans-serif; }
+  .nav-links a:hover { color: var(--fg); cursor: pointer; }
+
+  .hero { padding: 6rem 4rem 5rem; max-width: 900px; }
+  .hero-label { font-family: 'Helvetica Neue', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+  .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 2rem; }
+  .hero h1 em { font-style: italic; color: var(--muted); }
+  .hero p { font-family: 'Helvetica Neue', sans-serif; font-size: 1rem; color: var(--muted); max-width: 560px; line-height: 1.75; }
+
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; padding: 3rem 4rem 1.5rem; border-top: 1px solid var(--border); }
+  .section-title { font-family: 'Helvetica Neue', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5px; background: var(--border); }
+  .project-card { background: var(--card-bg); cursor: pointer; transition: background 0.2s; display: flex; flex-direction: column; }
+  .project-card:hover { background: var(--hover); }
+  .card-thumb { width: 100%; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .thumb-label { font-family: 'Helvetica Neue', sans-serif; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .card-body { padding: 1.5rem 1.75rem 2rem; flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
+  .card-meta { display: flex; justify-content: space-between; align-items: center; font-family: 'Helvetica Neue', sans-serif; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .card-title { font-size: 1.2rem; font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; }
+  .card-desc { font-family: 'Helvetica Neue', sans-serif; font-size: 0.85rem; color: var(--muted); line-height: 1.65; flex: 1; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+  .tag { background: var(--tag-bg); border-radius: 2px; padding: 0.2rem 0.6rem; font-family: 'Helvetica Neue', sans-serif; font-size: 0.68rem; letter-spacing: 0.05em; color: var(--muted); }
+  .lock-tag { background: #1a1a1a; color: #f5f4f0; border-radius: 2px; padding: 0.2rem 0.6rem; font-family: 'Helvetica Neue', sans-serif; font-size: 0.68rem; letter-spacing: 0.05em; display: inline-flex; align-items: center; gap: 0.3rem; }
+  .card-arrow { display: flex; align-items: center; gap: 0.4rem; font-family: 'Helvetica Neue', sans-serif; font-size: 0.75rem; color: var(--muted); margin-top: 1rem; transition: gap 0.2s; }
+  .project-card:hover .card-arrow { gap: 0.75rem; }
+
+  /* PASSWORD MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: var(--card-bg); padding: 2.5rem; max-width: 380px; width: 90%; }
+  .modal h3 { font-size: 1.2rem; font-weight: 400; margin-bottom: 0.5rem; }
+  .modal p { font-family: 'Helvetica Neue', sans-serif; font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; }
+  .modal input { width: 100%; border: 1px solid var(--border); background: var(--bg); padding: 0.75rem 1rem; font-family: 'Helvetica Neue', sans-serif; font-size: 0.9rem; outline: none; margin-bottom: 0.75rem; }
+  .modal input:focus { border-color: var(--fg); }
+  .modal-error { font-family: 'Helvetica Neue', sans-serif; font-size: 0.78rem; color: #c0392b; margin-bottom: 0.75rem; display: none; }
+  .modal-btns { display: flex; gap: 0.75rem; }
+  .btn-primary { flex: 1; background: var(--fg); color: var(--bg); border: none; padding: 0.75rem; font-family: 'Helvetica Neue', sans-serif; font-size: 0.85rem; cursor: pointer; letter-spacing: 0.05em; }
+  .btn-secondary { flex: 1; background: transparent; color: var(--fg); border: 1px solid var(--border); padding: 0.75rem; font-family: 'Helvetica Neue', sans-serif; font-size: 0.85rem; cursor: pointer; }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary:hover { border-color: var(--fg); }
+
+  /* ABOUT */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 5rem 4rem; border-top: 1px solid var(--border); }
+  .about h2 { font-size: 1.75rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .about p { font-family: 'Helvetica Neue', sans-serif; font-size: 0.9rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+  .about-info { display: flex; flex-direction: column; gap: 1.5rem; padding-top: 0.5rem; }
+  .info-row { border-top: 1px solid var(--border); padding-top: 1rem; }
+  .info-row .label { font-family: 'Helvetica Neue', sans-serif; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+  .info-row .value { font-family: 'Helvetica Neue', sans-serif; font-size: 0.9rem; }
+
+  footer { display: flex; justify-content: space-between; align-items: center; padding: 2rem 4rem; border-top: 1px solid var(--border); font-family: 'Helvetica Neue', sans-serif; font-size: 0.8rem; color: var(--muted); }
+  footer a:hover { color: var(--fg); }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .project-hero { width: 100%; aspect-ratio: 21/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .ph-label { font-family: 'Helvetica Neue', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .project-content { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Helvetica Neue', sans-serif; font-size: 0.8rem; color: var(--muted); margin-bottom: 3rem; cursor: pointer; transition: color 0.2s; }
+  .back-btn:hover { color: var(--fg); }
+  .project-eyebrow { font-family: 'Helvetica Neue', sans-serif; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .project-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; letter-spacing: -0.02em; margin-bottom: 2rem; line-height: 1.1; }
+  .project-meta-row { display: flex; gap: 3rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 3rem; flex-wrap: wrap; }
+  .pm-item .pm-label { font-family: 'Helvetica Neue', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+  .pm-item .pm-value { font-family: 'Helvetica Neue', sans-serif; font-size: 0.85rem; }
+  .project-section { margin-bottom: 3rem; }
+  .project-section h3 { font-size: 1.1rem; font-weight: 400; margin-bottom: 1rem; }
+  .project-section p { font-family: 'Helvetica Neue', sans-serif; font-size: 0.9rem; color: var(--muted); line-height: 1.8; margin-bottom: 0.75rem; }
+  .process-steps { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin: 1.5rem 0; }
+  .process-step { background: var(--card-bg); padding: 1.25rem 1.5rem; display: flex; gap: 1.5rem; align-items: flex-start; }
+  .step-num { font-family: 'Helvetica Neue', sans-serif; font-size: 0.7rem; color: var(--muted); min-width: 1.5rem; padding-top: 0.1rem; }
+  .step-content .step-title { font-family: 'Helvetica Neue', sans-serif; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.3rem; }
+  .step-content .step-desc { font-family: 'Helvetica Neue', sans-serif; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+  .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5px; background: var(--border); margin: 1.5rem 0; }
+  .img-placeholder { background: var(--tag-bg); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-family: 'Helvetica Neue', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .img-placeholder.wide { grid-column: span 2; aspect-ratio: 16/7; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .hero { padding: 3rem 1.5rem; }
+    .section-header { padding: 2rem 1.5rem 1rem; }
+    .project-grid { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 2rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+    .img-grid { grid-template-columns: 1fr; }
+    .img-placeholder.wide { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3>Protected Project</h3>
+    <p>This project contains confidential work. Please enter the password to continue.</p>
+    <input type="password" id="pw-input" placeholder="Enter password" onkeydown="if(event.key==='Enter') checkPassword()">
+    <div class="modal-error" id="pw-error">Incorrect password. Please try again.</div>
+    <div class="modal-btns">
+      <button class="btn-primary" onclick="checkPassword()">Unlock</button>
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+  <nav>
+    <div class="nav-logo">Luda Galchenko</div>
+    <div class="nav-links">
+      <a onclick="scrollToProjects()">Work</a>
+      <a onclick="scrollToAbout()">About</a>
+      <a href="mailto:luda@example.com">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-label">Senior Product Designer · UX / UI</p>
+    <h1>Designing digital products<br>that <em>matter</em></h1>
+    <p>I'm a Senior Product Designer at RES Digital Solutions, where I design and evolve digital products that optimise renewable asset performance. Passionate about building products with purpose — from early ideation through to final design.</p>
+  </section>
+
+  <div class="section-header" id="projects-section">
+    <span class="section-title">Selected Work</span>
+    <span class="section-title" style="font-size:0.7rem;">2022 – 2025</span>
+  </div>
+  <div class="project-grid" id="project-grid"></div>
+
+  <section class="about" id="about-section">
+    <div>
+      <h2>About</h2>
+      <p>I'm a Senior Product Designer (UX/UI) at RES Digital Solutions, where I design and evolve digital products that optimise renewable asset performance.</p>
+      <p>Passionate about building products with purpose, I've led initiatives from early ideation through to final design. Previously, I worked on mobile and web design at Sylvera, a London-based startup focused on carbon project analytics and ratings.</p>
+    </div>
+    <div class="about-info">
+      <div class="info-row"><div class="label">Currently</div><div class="value">Senior Product Designer, RES Digital Solutions</div></div>
+      <div class="info-row"><div class="label">Previously</div><div class="value">Product Designer, Sylvera · StorkClub</div></div>
+      <div class="info-row"><div class="label">Focus</div><div class="value">UX Strategy · UI Design · Design Systems · Mobile & Web</div></div>
+      <div class="info-row"><div class="label">Based in</div><div class="value">London, UK</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2025 Luda Galchenko</span>
+    <div style="display:flex;gap:2rem;">
+      <a href="#">LinkedIn</a>
+      <a href="#">Dribbble</a>
+      <a href="mailto:luda@example.com">Email</a>
+    </div>
+  </footer>
+</div>
+
+<!-- PROJECT PAGE -->
+<div id="project-page" class="page">
+  <nav>
+    <div class="nav-logo">Luda Galchenko</div>
+    <div class="nav-links">
+      <a onclick="goHome()">Work</a>
+      <a onclick="goHome()">About</a>
+      <a href="mailto:luda@example.com">Contact</a>
+    </div>
+  </nav>
+  <div id="project-detail"></div>
+</div>
+
+<script>
+const projects = [
+  {
+    id: 0,
+    company: "RES Digital Solutions", year: "2024–2025",
+    title: "Streamlining Wind Sites Repair Campaigns",
+    subtitle: "3Dx · Blade Platform",
+    shortDesc: "End-to-end redesign of the repair campaign workflow across 3Dx and Blade platforms — from damage detection through to repair sign-off.",
+    tags: ["End-to-End UX", "Workflow Design", "Web App"],
+    color: "#dde5e0", role: "Lead Product Designer", platform: "Web Application",
+    protected: false,
+    overview: "Led the end-to-end redesign of the wind site repair campaign workflow across RES Digital's 3Dx and Blade platforms — connecting field inspection data, repair planning, task assignment, and sign-off into a single coherent experience.",
+    problem: "Repair campaign management was fragmented across tools — inspection data lived separately from repair tasks, sign-off workflows were email-based, and field teams had no mobile-friendly way to update progress. This created bottlenecks and increased the risk of missed repairs.",
+    process: [
+      { title: "Discovery", desc: "Embedded with field engineers and asset managers to understand the full repair lifecycle — from drone inspection to final sign-off." },
+      { title: "Service Design", desc: "Mapped the end-to-end service blueprint covering field, office, and system touchpoints." },
+      { title: "Flow & IA Design", desc: "Designed new campaign creation, task assignment, and progress tracking flows with clear ownership at every stage." },
+      { title: "UI Design", desc: "High-fidelity screens for both desktop (office) and mobile-optimised (field) contexts, aligned to the RES Design System." },
+      { title: "Validation", desc: "Prototype testing with engineers and asset managers. Iterated on task status flows and bulk action patterns." }
+    ]
+  },
+  {
+    id: 1,
+    company: "RES Digital Solutions", year: "2025",
+    title: "Financial Management for Renewable Energy Assets",
+    subtitle: "RES Digital",
+    shortDesc: "A financial management module enabling renewable energy asset operators to track revenue, manage costs, and generate reports — all in one platform.",
+    tags: ["Product Design", "Data-Heavy UI", "Web App"],
+    color: "#e0dde5", role: "Lead Product Designer", platform: "Web Application",
+    protected: true, password: "res2025",
+    overview: "Designed a new Financial Management module for RES Digital — giving asset operators and finance teams a single place to track revenues, manage costs, reconcile invoices, and generate financial reports across their renewable energy portfolio.",
+    problem: "Financial data for renewable assets was scattered across accounting tools, spreadsheets, and the operational platform. Finance teams had no unified view of asset-level P&L, and reporting required significant manual effort.",
+    process: [
+      { title: "Stakeholder Research", desc: "Interviews with finance managers and asset operators to map current financial workflows and reporting needs." },
+      { title: "Data Modelling", desc: "Collaborated with product and engineering to define the data structure underpinning revenue, cost, and reporting entities." },
+      { title: "IA & Navigation", desc: "Designed the information architecture for the finance module — balancing overview dashboards with transaction-level detail." },
+      { title: "Complex UI Design", desc: "Designed data-dense screens for revenue dashboards, cost ledgers, invoice management, and export/reporting flows." },
+      { title: "Iteration", desc: "Multiple rounds of design review with finance stakeholders. Refined filtering, date range controls, and export formats." }
+    ]
+  },
+  {
+    id: 2,
+    company: "RES Digital Solutions", year: "2024–2025",
+    title: "Repair Campaign Module",
+    subtitle: "3Dx · Blade Platform",
+    shortDesc: "End-to-end feature design for wind turbine blade inspection and repair campaign workflows within the 3Dx and Blade platforms.",
+    tags: ["UX Strategy", "UI Design", "Web App"],
+    color: "#e8e6e0", role: "Lead Product Designer", platform: "Web Application",
+    protected: false,
+    overview: "Designed the Repair Campaign Module for RES Digital's 3Dx and Blade platforms — tools used by engineers and asset managers to plan, track, and execute blade repair campaigns for wind turbines across renewable energy sites.",
+    problem: "Asset managers needed a structured way to manage blade inspections and repair workflows. The existing process relied on fragmented spreadsheets and manual coordination, leading to missed repairs, scheduling conflicts, and difficulty tracking campaign status.",
+    process: [
+      { title: "Discovery & Research", desc: "Stakeholder interviews with engineers and asset managers. Mapped existing workflows and identified pain points in the repair scheduling process." },
+      { title: "Information Architecture", desc: "Defined data models for campaigns, blade assets, repair tasks, and status states. Created user flows for campaign creation, assignment, and completion." },
+      { title: "Wireframing", desc: "Low-fidelity wireframes covering the campaign dashboard, task list, blade detail view, and status transitions." },
+      { title: "UI Design & Prototyping", desc: "High-fidelity designs aligned with the RES Design System. Interactive prototypes tested with internal users." },
+      { title: "Handoff & Iteration", desc: "Collaborated with engineering for implementation. Refined designs based on QA and user feedback post-launch." }
+    ]
+  },
+  {
+    id: 3,
+    company: "RES Digital Solutions", year: "2024",
+    title: "Design System RES Digital",
+    subtitle: "RES 2025",
+    shortDesc: "Building and scaling a comprehensive design system to unify product experience across RES Digital's suite of renewable energy tools.",
+    tags: ["Design System", "Tokens", "Component Library"],
+    color: "#e0e4e8", role: "Lead Product Designer", platform: "Multi-platform",
+    protected: false,
+    overview: "Led the creation of the RES Digital Design System — a unified component library, token structure, and documentation system used across all products in the RES Digital portfolio.",
+    problem: "As the product suite grew, inconsistent UI patterns and duplicated design work slowed teams down. There was no single source of truth for components, colours, or interaction patterns.",
+    process: [
+      { title: "Audit & Inventory", desc: "Conducted a full UI audit across all existing products to identify common patterns, inconsistencies, and component gaps." },
+      { title: "Token Architecture", desc: "Defined a colour, typography, spacing, and elevation token system — structured for both light and dark modes." },
+      { title: "Component Design", desc: "Designed and documented a core component library in Figma covering navigation, forms, data tables, charts, and feedback states." },
+      { title: "Documentation", desc: "Created usage guidelines, do/don't examples, and accessibility annotations for every component." },
+      { title: "Adoption & Governance", desc: "Established a contribution model and review process. Onboarded engineering to the token system for implementation in code." }
+    ]
+  },
+  {
+    id: 4,
+    company: "Sylvera", year: "2023",
+    title: "Ratings Commentary Revamp",
+    subtitle: "Carbon Analytics Platform",
+    shortDesc: "Redesigned the ratings commentary experience on Sylvera's carbon project analytics platform to improve clarity for carbon market buyers.",
+    tags: ["UX Research", "UI Design", "Web App"],
+    color: "#e4e8e0", role: "Product Designer", platform: "Web Application",
+    protected: false,
+    overview: "Revamped how carbon project ratings and commentary are surfaced on Sylvera's analytics platform — making it easier for buyers to understand rating rationale, compare projects, and make informed purchasing decisions.",
+    problem: "Users found the existing ratings commentary dense and hard to parse. Important signals were buried in long text blocks, and there was no clear visual hierarchy distinguishing rating drivers from supporting detail.",
+    process: [
+      { title: "User Research", desc: "Moderated usability sessions with carbon market analysts and buyers. Identified key comprehension gaps and mental model mismatches." },
+      { title: "Content Strategy", desc: "Worked with the ratings team to restructure commentary into scannable, structured formats with clear hierarchy." },
+      { title: "Design Exploration", desc: "Explored multiple layout approaches for surfacing key rating drivers, evidence cards, and historical commentary." },
+      { title: "Testing & Validation", desc: "Ran A/B prototype tests with users. Measured comprehension scores and task completion rates." },
+      { title: "Final Design", desc: "Delivered a redesigned commentary view with improved IA, typography, and interactive drill-down capability." }
+    ]
+  },
+  {
+    id: 5,
+    company: "Sylvera", year: "2023",
+    title: "Country Profiles",
+    subtitle: "Carbon Analytics Platform",
+    shortDesc: "A new Country Profiles feature enabling users to explore carbon market activity, project distribution, and regulatory context by geography.",
+    tags: ["Feature Design", "Data Visualisation", "UX"],
+    color: "#e8e4e0", role: "Product Designer", platform: "Web Application",
+    protected: false,
+    overview: "Designed Country Profiles for Sylvera — a new feature allowing users to explore carbon project data, regulatory context, and market activity organised by country.",
+    problem: "Users conducting geographic research had to manually filter and cross-reference data across multiple views. There was no dedicated experience for understanding a country's carbon market landscape at a glance.",
+    process: [
+      { title: "Research & Scoping", desc: "Interviews with research analysts to understand how they currently approach country-level due diligence." },
+      { title: "IA & Navigation", desc: "Defined the information architecture for country pages — balancing overview metrics, project listings, and regulatory context." },
+      { title: "Data Visualisation", desc: "Designed chart types and map components that communicate project distribution, rating spread, and volume trends." },
+      { title: "UI Design", desc: "High-fidelity designs consistent with the Sylvera design language. Focused on scannability and progressive disclosure." },
+      { title: "Delivery", desc: "Collaborated with engineers on implementation and delivered developer-ready specs and interactive prototypes." }
+    ]
+  },
+  {
+    id: 6,
+    company: "Sylvera", year: "2022–2024",
+    title: "Visual Language & Website Design",
+    subtitle: "Brand & Marketing",
+    shortDesc: "Defined and evolved Sylvera's visual language across brand, marketing, and web touchpoints over a two-year period.",
+    tags: ["Brand Design", "Web Design", "Visual Identity"],
+    color: "#ebe8e0", role: "Product Designer", platform: "Web / Marketing",
+    protected: false,
+    overview: "Led the evolution of Sylvera's visual design language across brand and marketing touchpoints — including the public website, pitch decks, event materials, and social assets — over 2 years of rapid company growth.",
+    problem: "As Sylvera scaled, the brand needed a more refined and consistent visual identity that could communicate credibility to enterprise buyers while retaining the startup's energy.",
+    process: [
+      { title: "Brand Audit", desc: "Reviewed existing brand assets and identified inconsistencies in colour usage, typography, and illustration style." },
+      { title: "Visual Language Definition", desc: "Developed a refreshed visual system including colour palette, type scale, iconography, and data visualisation style." },
+      { title: "Website Design", desc: "Redesigned key marketing pages including homepage, product pages, and carbon ratings explainer content." },
+      { title: "Asset Production", desc: "Created a library of reusable marketing assets and templates for the team to use across decks, reports, and social." },
+      { title: "Ongoing Iteration", desc: "Continuously evolved the system based on campaign performance, stakeholder feedback, and brand positioning changes." }
+    ]
+  },
+  {
+    id: 7,
+    company: "StorkClub", year: "2022",
+    title: "Family-Building Benefits",
+    subtitle: "Mobile iOS",
+    shortDesc: "Designed the iOS mobile experience for StorkClub — helping employees access and navigate family-building benefits including fertility, adoption, and surrogacy support.",
+    tags: ["Mobile Design", "iOS", "UX Research"],
+    color: "#e8e0e8", role: "Product Designer", platform: "iOS Mobile App",
+    protected: false,
+    overview: "Designed the mobile iOS experience for StorkClub — a benefits platform that helps employees understand, access, and manage family-building benefits such as fertility treatments, adoption support, egg freezing, and surrogacy.",
+    problem: "Benefits navigation is notoriously confusing. Users — often at emotionally sensitive life moments — struggled to understand what they were covered for, how to access it, and where they were in the process.",
+    process: [
+      { title: "User Research", desc: "Empathy interviews with users going through fertility journeys. Identified emotional touchpoints, anxiety triggers, and information needs." },
+      { title: "Journey Mapping", desc: "Mapped the end-to-end user journey from benefit discovery through to care appointment booking and reimbursement." },
+      { title: "Content Design", desc: "Worked with clinical and benefits teams to simplify complex policy language into clear, supportive copy." },
+      { title: "iOS UI Design", desc: "Designed mobile screens following iOS Human Interface Guidelines. Focused on warmth, clarity, and reducing anxiety through calm visual design." },
+      { title: "Prototype & Test", desc: "Validated designs through moderated user testing. Iterated on navigation patterns and key conversion moments." }
+    ]
+  }
+];
+
+let pendingProjectId = null;
+
+const grid = document.getElementById('project-grid');
+projects.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'project-card';
+  const lockBadge = p.protected ? `<span class="lock-tag">🔒 Password protected</span>` : '';
+  card.innerHTML = `
+    <div class="card-thumb" style="background:${p.color};">
+      <span class="thumb-label">Project Preview</span>
+    </div>
+    <div class="card-body">
+      <div class="card-meta"><span>${p.company}</span><span>${p.year}</span></div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.shortDesc}</div>
+      <div class="card-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}${lockBadge}</div>
+      <div class="card-arrow">View project <span>→</span></div>
+    </div>`;
+  card.onclick = () => handleCardClick(p.id);
+  grid.appendChild(card);
+});
+
+function handleCardClick(id) {
+  const p = projects[id];
+  if (p.protected) {
+    pendingProjectId = id;
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-error').style.display = 'none';
+    document.getElementById('modal').classList.add('show');
+    setTimeout(() => document.getElementById('pw-input').focus(), 100);
+  } else {
+    renderProject(id);
+  }
+}
+
+function checkPassword() {
+  const p = projects[pendingProjectId];
+  const val = document.getElementById('pw-input').value;
+  if (val === p.password) {
+    closeModal();
+    renderProject(pendingProjectId);
+  } else {
+    document.getElementById('pw-error').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+  pendingProjectId = null;
+}
+
+function renderProject(id) {
+  const p = projects[id];
+  document.getElementById('project-detail').innerHTML = `
+    <div class="project-hero" style="background:${p.color};">
+      <span class="ph-label">Project Images · Coming Soon</span>
+    </div>
+    <div class="project-content">
+      <div class="back-btn" onclick="goHome()">← Back to all work</div>
+      <div class="project-eyebrow">${p.company} · ${p.year}</div>
+      <h1 class="project-title">${p.title}<br><em style="color:var(--muted);font-size:0.65em;">${p.subtitle}</em></h1>
+      <div class="project-meta-row">
+        <div class="pm-item"><div class="pm-label">Role</div><div class="pm-value">${p.role}</div></div>
+        <div class="pm-item"><div class="pm-label">Platform</div><div class="pm-value">${p.platform}</div></div>
+        <div class="pm-item"><div class="pm-label">Tags</div><div class="pm-value">${p.tags.join(' · ')}</div></div>
+      </div>
+      <div class="project-section"><h3>Overview</h3><p>${p.overview}</p></div>
+      <div class="project-section"><h3>The Challenge</h3><p>${p.problem}</p></div>
+      <div class="img-grid">
+        <div class="img-placeholder wide">Hero / Final Design</div>
+        <div class="img-placeholder">Research & Discovery</div>
+        <div class="img-placeholder">Wireframes</div>
+      </div>
+      <div class="project-section">
+        <h3>Design Process</h3>
+        <div class="process-steps">
+          ${p.process.map((s,i)=>`
+          <div class="process-step">
+            <div class="step-num">0${i+1}</div>
+            <div class="step-content">
+              <div class="step-title">${s.title}</div>
+              <div class="step-desc">${s.desc}</div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div class="img-grid">
+        <div class="img-placeholder">Final Design 1</div>
+        <div class="img-placeholder">Final Design 2</div>
+        <div class="img-placeholder">Final Design 3</div>
+        <div class="img-placeholder">Final Design 4</div>
+      </div>
+    </div>`;
+  document.getElementById('home').classList.remove('active');
+  document.getElementById('project-page').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  document.getElementById('project-page').classList.remove('active');
+  document.getElementById('home').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function scrollToProjects() { document.getElementById('projects-section').scrollIntoView({ behavior: 'smooth' }); }
+function scrollToAbout() { document.getElementById('about-section').scrollIntoView({ behavior: 'smooth' }); }
+</script>
+</body>
+</html>
