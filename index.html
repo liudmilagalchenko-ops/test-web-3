@@ -255,6 +255,14 @@ const projects = [
     tags: ["Design System", "Tokens", "Component Library"],
     color: "#e0e4e8", role: "Lead Product Designer", platform: "Multi-platform",
     protected: false,
+    thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/a925f71e503747e06dcc68fba942af69b338285a/Design%20System%20RES%20Digital%20-%20preview.jpg",
+    hero: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/a925f71e503747e06dcc68fba942af69b338285a/Design%20System%20RES%20Digital%20-%20hero%202.jpg",
+    images: [
+      "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/a925f71e503747e06dcc68fba942af69b338285a/Design%20System%20RES%20Digital%20-%20image%200.jpg",
+      "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/a925f71e503747e06dcc68fba942af69b338285a/Design%20System%20RES%20Digital%20-%20image%201.jpg",
+      "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/a925f71e503747e06dcc68fba942af69b338285a/Design%20System%20RES%20Digital%20-%20image%202.jpg",
+      "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/a925f71e503747e06dcc68fba942af69b338285a/Design%20System%20RES%20Digital%20-%20image%203.jpg"
+    ],
     overview: "Led the creation of the RES Digital Design System — a unified component library, token structure, and documentation system used across all products in the RES Digital portfolio.",
     problem: "As the product suite grew, inconsistent UI patterns and duplicated design work slowed teams down. There was no single source of truth for components, colours, or interaction patterns.",
     process: [
@@ -352,7 +360,9 @@ projects.forEach(p => {
   const lockBadge = p.protected ? `<span class="lock-tag">🔒 Password protected</span>` : '';
   card.innerHTML = `
     <div class="card-thumb" style="background:${p.color};">
-      <span class="thumb-label">Project Preview</span>
+      ${p.thumb
+        ? `<img src="${p.thumb}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+        : `<span class="thumb-label">Project Preview</span>`}
     </div>
     <div class="card-body">
       <div class="card-meta"><span>${p.company}</span><span>${p.year}</span></div>
@@ -400,7 +410,9 @@ function renderProject(id) {
   const p = projects[id];
   document.getElementById('project-detail').innerHTML = `
     <div class="project-hero" style="background:${p.color};">
-      <span class="ph-label">Project Images · Coming Soon</span>
+      ${p.hero
+        ? `<img src="${p.hero}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+        : `<span class="ph-label">Project Images · Coming Soon</span>`}
     </div>
     <div class="project-content">
       <div class="back-btn" onclick="goHome()">← Back to all work</div>
@@ -414,9 +426,12 @@ function renderProject(id) {
       <div class="project-section"><h3>Overview</h3><p>${p.overview}</p></div>
       <div class="project-section"><h3>The Challenge</h3><p>${p.problem}</p></div>
       <div class="img-grid">
-        <div class="img-placeholder wide">Hero / Final Design</div>
-        <div class="img-placeholder">Research & Discovery</div>
-        <div class="img-placeholder">Wireframes</div>
+        ${p.images && p.images.length > 0
+          ? `<img src="${p.images[0]}" alt="Design image 1" class="wide" style="width:100%;height:100%;object-fit:cover;display:block;grid-column:span 2;">
+             ${p.images.slice(1).map((src,i) => `<img src="${src}" alt="Design image ${i+2}" style="width:100%;height:100%;object-fit:cover;display:block;">`).join('')}`
+          : `<div class="img-placeholder wide">Hero / Final Design</div>
+             <div class="img-placeholder">Research & Discovery</div>
+             <div class="img-placeholder">Wireframes</div>`}
       </div>
       <div class="project-section">
         <h3>Design Process</h3>
@@ -432,10 +447,12 @@ function renderProject(id) {
         </div>
       </div>
       <div class="img-grid">
-        <div class="img-placeholder">Final Design 1</div>
-        <div class="img-placeholder">Final Design 2</div>
-        <div class="img-placeholder">Final Design 3</div>
-        <div class="img-placeholder">Final Design 4</div>
+        ${p.images && p.images.length > 1
+          ? p.images.slice(1).map((src,i) => `<img src="${src}" alt="Final design ${i+1}" style="width:100%;height:100%;object-fit:cover;display:block;">`).join('')
+          : `<div class="img-placeholder">Final Design 1</div>
+             <div class="img-placeholder">Final Design 2</div>
+             <div class="img-placeholder">Final Design 3</div>
+             <div class="img-placeholder">Final Design 4</div>`}
       </div>
     </div>`;
   document.getElementById('home').classList.remove('active');
