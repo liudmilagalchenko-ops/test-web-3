@@ -9,19 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f4f0; --fg: #1a1a1a; --muted: #6b6b6b; --accent: #2d2d2d;
+    --bg: #f5f4f0; --fg: #1a1a1a; --muted: #6b6b6b;
     --card-bg: #ffffff; --tag-bg: #ebebeb; --border: #e0ddd6; --hover: #f0ede8;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--fg); font-family: 'Hanken Grotesk', sans-serif; line-height: 1.6; }
   a { color: inherit; text-decoration: none; }
 
-  nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1.5rem 4rem; position: sticky; top: 0; background: var(--bg);
-    z-index: 100; border-bottom: 1px solid var(--border);
-  }
-  .nav-logo { font-size: 1rem; font-weight: 600; letter-spacing: 0.02em; padding-bottom: 0; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 4rem; position: sticky; top: 0; background: var(--bg); z-index: 100; border-bottom: 1px solid var(--border); }
+  .nav-logo { font-size: 1rem; font-weight: 600; letter-spacing: 0.02em; cursor: pointer; }
+  .nav-links { display: flex; gap: 2rem; font-size: 0.875rem; color: var(--muted); }
   .nav-links a:hover { color: var(--fg); cursor: pointer; }
 
   .hero { padding: 6rem 4rem 5rem; max-width: 900px; }
@@ -76,17 +73,14 @@
   .page { display: none; }
   .page.active { display: block; }
 
-  .project-hero { width: 100%; aspect-ratio: 21/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .project-hero { width: 100%; aspect-ratio: 21/9; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   .ph-label { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
   .project-wrapper { position: relative; padding: 4rem 2rem 6rem; }
-  .project-content { max-width: 760px; margin: 0 auto; }
-  .project-top-row { display: flex; align-items: baseline; justify-content: flex-start; margin-bottom: 1rem; }
   .back-btn-outer { position: absolute; left: 4rem; top: 4rem; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--muted); cursor: pointer; transition: color 0.2s; letter-spacing: 0.01em; }
   .back-btn-outer:hover { color: var(--fg); }
-  .project-wrapper { position: relative; padding: 4rem 2rem 6rem; }
-  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--muted); cursor: pointer; transition: color 0.2s; letter-spacing: 0.01em; }
-  .back-btn:hover { color: var(--fg); }
-  .project-eyebrow { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .project-content { max-width: 760px; margin: 0 auto; }
+  .project-top-row { display: flex; align-items: baseline; justify-content: flex-start; margin-bottom: 1rem; }
+  .project-eyebrow { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
   .project-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 2rem; line-height: 1.1; }
   .project-title span { font-weight: 400; color: var(--muted); font-size: 0.65em; display: block; margin-top: 0.4rem; }
   .project-meta-row { display: flex; gap: 3rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 3rem; flex-wrap: wrap; }
@@ -101,8 +95,8 @@
   .step-content .step-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
   .step-content .step-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
   .img-stack { display: flex; flex-direction: column; gap: 60px; margin: 1.5rem 0; }
-  .img-stack img, .img-stack .img-placeholder { width: 100%; aspect-ratio: 16/7; object-fit: cover; display: block; }
-  .img-placeholder { background: var(--tag-bg); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .img-stack img { width: 100%; aspect-ratio: 16/7; object-fit: cover; display: block; }
+  .img-placeholder { background: var(--tag-bg); width: 100%; aspect-ratio: 16/7; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 
   @media (max-width: 768px) {
     nav { padding: 1.25rem 1.5rem; }
@@ -111,8 +105,7 @@
     .project-grid { grid-template-columns: 1fr; }
     .about { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 2rem; }
     footer { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
-    .img-grid { grid-template-columns: 1fr; }
-    .img-placeholder.wide { grid-column: span 1; }
+    .back-btn-outer { display: none; }
   }
 </style>
 </head>
@@ -142,19 +135,16 @@
       <a href="mailto:luda@example.com">Contact</a>
     </div>
   </nav>
-
   <section class="hero">
     <p class="hero-label">Senior Product Designer · UX / UI</p>
     <h1>Designing digital products<br>that <span>matter</span></h1>
     <p>I'm a Senior Product Designer at RES Digital Solutions, where I design and evolve digital products that optimise renewable asset performance. Passionate about building products with purpose — from early ideation through to final design.</p>
   </section>
-
   <div class="section-header" id="projects-section">
     <span class="section-title">Selected Work</span>
     <span class="section-title" style="font-size:0.7rem;">2022 – 2025</span>
   </div>
   <div class="project-grid" id="project-grid"></div>
-
   <section class="about" id="about-section">
     <div>
       <h2>About</h2>
@@ -168,7 +158,6 @@
       <div class="info-row"><div class="label">Based in</div><div class="value">London, UK</div></div>
     </div>
   </section>
-
   <footer>
     <span>© 2025 Luda Galchenko</span>
     <div style="display:flex;gap:2rem;">
@@ -195,46 +184,57 @@
 <script>
 const projects = [
   {
-    id: 0, company: "RES Digital Solutions", year: "2024–2025",
-    title: "Streamlining Wind Sites Repair Campaigns", subtitle: "3Dx · Blade Platform",
+    id: 0,
+    company: "RES Digital Solutions", year: "2024–2025",
+    title: "Streamlining Wind Sites Repair Campaigns",
+    subtitle: "3Dx · Blade Platform",
     shortDesc: "End-to-end redesign of the repair campaign workflow across 3Dx and Blade platforms — from damage detection through to repair sign-off.",
-    tags: ["End-to-End UX", "Workflow Design", "Web App"], color: "#dde5e0",
-    role: "Lead Product Designer", platform: "Web Application",     protected: true, password: "res2025",
+    tags: ["End-to-End UX", "Workflow Design", "Web App"],
+    color: "#dde5e0", role: "Lead Product Designer", platform: "Web Application",
+    protected: true, password: "res2025",
+    thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Repair%20campaigns%20-%20preview.jpg",
+    hero: null, images: [],
     overview: "Led the end-to-end redesign of the wind site repair campaign workflow across RES Digital's 3Dx and Blade platforms — connecting field inspection data, repair planning, task assignment, and sign-off into a single coherent experience.",
-    problem: "Repair campaign management was fragmented across tools — inspection data lived separately from repair tasks, sign-off workflows were email-based, and field teams had no mobile-friendly way to update progress. This created bottlenecks and increased the risk of missed repairs.",
+    problem: "Repair campaign management was fragmented across tools — inspection data lived separately from repair tasks, sign-off workflows were email-based, and field teams had no mobile-friendly way to update progress.",
     process: [
-      { title: "Discovery", desc: "Embedded with field engineers and asset managers to understand the full repair lifecycle — from drone inspection to final sign-off." },
+      { title: "Discovery", desc: "Embedded with field engineers and asset managers to understand the full repair lifecycle." },
       { title: "Service Design", desc: "Mapped the end-to-end service blueprint covering field, office, and system touchpoints." },
-      { title: "Flow & IA Design", desc: "Designed new campaign creation, task assignment, and progress tracking flows with clear ownership at every stage." },
-      { title: "UI Design", desc: "High-fidelity screens for both desktop (office) and mobile-optimised (field) contexts, aligned to the RES Design System." },
-      { title: "Validation", desc: "Prototype testing with engineers and asset managers. Iterated on task status flows and bulk action patterns." }
+      { title: "Flow & IA Design", desc: "Designed new campaign creation, task assignment, and progress tracking flows." },
+      { title: "UI Design", desc: "High-fidelity screens for both desktop and mobile-optimised contexts." },
+      { title: "Validation", desc: "Prototype testing with engineers and asset managers." }
     ]
   },
   {
-    id: 1, company: "RES Digital Solutions", year: "2025",
-    title: "Financial Management for Renewable Energy Assets", subtitle: "RES Digital",
+    id: 1,
+    company: "RES Digital Solutions", year: "2025",
+    title: "Financial Management for Renewable Energy Assets",
+    subtitle: "RES Digital",
     shortDesc: "A financial management module enabling renewable energy asset operators to track revenue, manage costs, and generate reports — all in one platform.",
-    tags: ["Product Design", "Data-Heavy UI", "Web App"], color: "#e0dde5",
-    role: "Lead Product Designer", platform: "Web Application", protected: true, password: "res2025",
+    tags: ["Product Design", "Data-Heavy UI", "Web App"],
+    color: "#e0dde5", role: "Lead Product Designer", platform: "Web Application",
+    protected: true, password: "res2025",
     thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Finnacial%20managment%20-%20preview.jpg",
-    overview: "Designed a new Financial Management module for RES Digital — giving asset operators and finance teams a single place to track revenues, manage costs, reconcile invoices, and generate financial reports across their renewable energy portfolio.",
-    problem: "Financial data for renewable assets was scattered across accounting tools, spreadsheets, and the operational platform. Finance teams had no unified view of asset-level P&L, and reporting required significant manual effort.",
+    hero: null, images: [],
+    overview: "Designed a new Financial Management module for RES Digital — giving asset operators and finance teams a single place to track revenues, manage costs, and generate reports.",
+    problem: "Financial data for renewable assets was scattered across accounting tools, spreadsheets, and the operational platform. Finance teams had no unified view of asset-level P&L.",
     process: [
-      { title: "Stakeholder Research", desc: "Interviews with finance managers and asset operators to map current financial workflows and reporting needs." },
-      { title: "Data Modelling", desc: "Collaborated with product and engineering to define the data structure underpinning revenue, cost, and reporting entities." },
-      { title: "IA & Navigation", desc: "Designed the information architecture for the finance module — balancing overview dashboards with transaction-level detail." },
-      { title: "Complex UI Design", desc: "Designed data-dense screens for revenue dashboards, cost ledgers, invoice management, and export/reporting flows." },
-      { title: "Iteration", desc: "Multiple rounds of design review with finance stakeholders. Refined filtering, date range controls, and export formats." }
+      { title: "Stakeholder Research", desc: "Interviews with finance managers and asset operators to map current financial workflows." },
+      { title: "Data Modelling", desc: "Collaborated with product and engineering to define the data structure." },
+      { title: "IA & Navigation", desc: "Designed the information architecture balancing overview dashboards with transaction-level detail." },
+      { title: "Complex UI Design", desc: "Designed data-dense screens for revenue dashboards, cost ledgers, and invoice management." },
+      { title: "Iteration", desc: "Multiple rounds of design review with finance stakeholders." }
     ]
   },
-
   {
-    id: 3, company: "RES Digital Solutions", year: "2024",
-    title: "Design System RES Digital", subtitle: "RES 2025",
+    id: 2,
+    company: "RES Digital Solutions", year: "2024",
+    title: "Design System RES Digital",
+    subtitle: "RES 2025",
     shortDesc: "Building and scaling a comprehensive design system to unify product experience across RES Digital's suite of renewable energy tools.",
-    tags: ["Design System", "Tokens", "Component Library"], color: "#e0e4e8",
-    role: "Lead Product Designer", platform: "Multi-platform", protected: false,
-    thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/a925f71e503747e06dcc68fba942af69b338285a/Design%20System%20RES%20Digital%20-%20preview.jpg",
+    tags: ["Design System", "Tokens", "Component Library"],
+    color: "#e0e4e8", role: "Lead Product Designer", platform: "Multi-platform",
+    protected: false,
+    thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Design%20System%20RES%20Digital%20-%20preview.jpg",
     hero: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Design%20System%20RES%20Digital%20-%20image%203.jpg",
     images: [
       "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Design%20System%20RES%20Digital%20-%20image%200.jpg",
@@ -245,95 +245,116 @@ const projects = [
     overview: "Led the creation of the RES Digital Design System — a unified component library, token structure, and documentation system used across all products in the RES Digital portfolio.",
     problem: "As the product suite grew, inconsistent UI patterns and duplicated design work slowed teams down. There was no single source of truth for components, colours, or interaction patterns.",
     process: [
-      { title: "Audit & Inventory", desc: "Conducted a full UI audit across all existing products to identify common patterns, inconsistencies, and component gaps." },
-      { title: "Token Architecture", desc: "Defined a colour, typography, spacing, and elevation token system — structured for both light and dark modes." },
-      { title: "Component Design", desc: "Designed and documented a core component library in Figma covering navigation, forms, data tables, charts, and feedback states." },
-      { title: "Documentation", desc: "Created usage guidelines, do/don't examples, and accessibility annotations for every component." },
-      { title: "Adoption & Governance", desc: "Established a contribution model and review process. Onboarded engineering to the token system for implementation in code." }
+      { title: "Audit & Inventory", desc: "Conducted a full UI audit across all existing products to identify common patterns and gaps." },
+      { title: "Token Architecture", desc: "Defined a colour, typography, spacing, and elevation token system for light and dark modes." },
+      { title: "Component Design", desc: "Designed and documented a core component library in Figma." },
+      { title: "Documentation", desc: "Created usage guidelines, do/don't examples, and accessibility annotations." },
+      { title: "Adoption & Governance", desc: "Established a contribution model and onboarded engineering to the token system." }
     ]
   },
   {
-    id: 4, company: "Sylvera", year: "2023",
-    title: "Ratings Commentary Revamp", subtitle: "Carbon Analytics Platform",
+    id: 3,
+    company: "Sylvera", year: "2023",
+    title: "Ratings Commentary Revamp",
+    subtitle: "Carbon Analytics Platform",
     shortDesc: "Redesigned the ratings commentary experience on Sylvera's carbon project analytics platform to improve clarity for carbon market buyers.",
-    tags: ["UX Research", "UI Design", "Web App"], color: "#e4e8e0",
-    role: "Product Designer", platform: "Web Application", protected: false,
+    tags: ["UX Research", "UI Design", "Web App"],
+    color: "#e4e8e0", role: "Product Designer", platform: "Web Application",
+    protected: false,
     thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Raiting%20commentary%20revamp%20-%20preview-1.jpg",
-    overview: "Revamped how carbon project ratings and commentary are surfaced on Sylvera's analytics platform — making it easier for buyers to understand rating rationale, compare projects, and make informed purchasing decisions.",
-    problem: "Users found the existing ratings commentary dense and hard to parse. Important signals were buried in long text blocks, and there was no clear visual hierarchy distinguishing rating drivers from supporting detail.",
+    hero: null, images: [],
+    overview: "Revamped how carbon project ratings and commentary are surfaced on Sylvera's analytics platform — making it easier for buyers to understand rating rationale and make informed decisions.",
+    problem: "Users found the existing ratings commentary dense and hard to parse. Important signals were buried in long text blocks with no clear visual hierarchy.",
     process: [
-      { title: "User Research", desc: "Moderated usability sessions with carbon market analysts and buyers. Identified key comprehension gaps and mental model mismatches." },
-      { title: "Content Strategy", desc: "Worked with the ratings team to restructure commentary into scannable, structured formats with clear hierarchy." },
-      { title: "Design Exploration", desc: "Explored multiple layout approaches for surfacing key rating drivers, evidence cards, and historical commentary." },
-      { title: "Testing & Validation", desc: "Ran A/B prototype tests with users. Measured comprehension scores and task completion rates." },
-      { title: "Final Design", desc: "Delivered a redesigned commentary view with improved IA, typography, and interactive drill-down capability." }
+      { title: "User Research", desc: "Moderated usability sessions with carbon market analysts and buyers." },
+      { title: "Content Strategy", desc: "Worked with the ratings team to restructure commentary into scannable formats." },
+      { title: "Design Exploration", desc: "Explored multiple layout approaches for surfacing key rating drivers." },
+      { title: "Testing & Validation", desc: "Ran A/B prototype tests with users. Measured comprehension scores." },
+      { title: "Final Design", desc: "Delivered a redesigned commentary view with improved IA and typography." }
     ]
   },
   {
-    id: 5, company: "Sylvera", year: "2023",
-    title: "Country Profiles", subtitle: "Carbon Analytics Platform",
+    id: 4,
+    company: "Sylvera", year: "2023",
+    title: "Country Profiles",
+    subtitle: "Carbon Analytics Platform",
     shortDesc: "A new Country Profiles feature enabling users to explore carbon market activity, project distribution, and regulatory context by geography.",
-    tags: ["Feature Design", "Data Visualisation", "UX"], color: "#e8e4e0",
-    role: "Product Designer", platform: "Web Application", protected: false,
+    tags: ["Feature Design", "Data Visualisation", "UX"],
+    color: "#e8e4e0", role: "Product Designer", platform: "Web Application",
+    protected: false,
     thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Country%20profiles%20-%20preview.jpg",
+    hero: null, images: [],
     overview: "Designed Country Profiles for Sylvera — a new feature allowing users to explore carbon project data, regulatory context, and market activity organised by country.",
-    problem: "Users conducting geographic research had to manually filter and cross-reference data across multiple views. There was no dedicated experience for understanding a country's carbon market landscape at a glance.",
+    problem: "Users conducting geographic research had to manually filter data across multiple views. There was no dedicated experience for a country's carbon market landscape.",
     process: [
-      { title: "Research & Scoping", desc: "Interviews with research analysts to understand how they currently approach country-level due diligence." },
-      { title: "IA & Navigation", desc: "Defined the information architecture for country pages — balancing overview metrics, project listings, and regulatory context." },
-      { title: "Data Visualisation", desc: "Designed chart types and map components that communicate project distribution, rating spread, and volume trends." },
-      { title: "UI Design", desc: "High-fidelity designs consistent with the Sylvera design language. Focused on scannability and progressive disclosure." },
-      { title: "Delivery", desc: "Collaborated with engineers on implementation and delivered developer-ready specs and interactive prototypes." }
+      { title: "Research & Scoping", desc: "Interviews with research analysts on country-level due diligence workflows." },
+      { title: "IA & Navigation", desc: "Defined the information architecture for country pages." },
+      { title: "Data Visualisation", desc: "Designed chart types and map components for project distribution and volume trends." },
+      { title: "UI Design", desc: "High-fidelity designs focused on scannability and progressive disclosure." },
+      { title: "Delivery", desc: "Collaborated with engineers and delivered developer-ready specs." }
     ]
   },
   {
-    id: 6, company: "Sylvera", year: "2022–2024",
-    title: "Visual Language & Website Design", subtitle: "Brand & Marketing",
+    id: 5,
+    company: "Sylvera", year: "2022–2024",
+    title: "Visual Language & Website Design",
+    subtitle: "Brand & Marketing",
     shortDesc: "Defined and evolved Sylvera's visual language across brand, marketing, and web touchpoints over a two-year period.",
-    tags: ["Brand Design", "Web Design", "Visual Identity"], color: "#ebe8e0",
-    role: "Product Designer", platform: "Web / Marketing", protected: false,
+    tags: ["Brand Design", "Web Design", "Visual Identity"],
+    color: "#ebe8e0", role: "Product Designer", platform: "Web / Marketing",
+    protected: false,
     thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Visual%20Language%20%26%20Website%20Design%20-%20preview.jpg",
-    overview: "Led the evolution of Sylvera's visual design language across brand and marketing touchpoints — including the public website, pitch decks, event materials, and social assets — over 2 years of rapid company growth.",
-    problem: "As Sylvera scaled, the brand needed a more refined and consistent visual identity that could communicate credibility to enterprise buyers while retaining the startup's energy.",
+    hero: null, images: [],
+    overview: "Led the evolution of Sylvera's visual design language across brand and marketing touchpoints over 2 years of rapid company growth.",
+    problem: "As Sylvera scaled, the brand needed a more refined identity that could communicate credibility to enterprise buyers while retaining the startup's energy.",
     process: [
-      { title: "Brand Audit", desc: "Reviewed existing brand assets and identified inconsistencies in colour usage, typography, and illustration style." },
-      { title: "Visual Language Definition", desc: "Developed a refreshed visual system including colour palette, type scale, iconography, and data visualisation style." },
-      { title: "Website Design", desc: "Redesigned key marketing pages including homepage, product pages, and carbon ratings explainer content." },
-      { title: "Asset Production", desc: "Created a library of reusable marketing assets and templates for the team to use across decks, reports, and social." },
-      { title: "Ongoing Iteration", desc: "Continuously evolved the system based on campaign performance, stakeholder feedback, and brand positioning changes." }
+      { title: "Brand Audit", desc: "Reviewed existing brand assets and identified inconsistencies." },
+      { title: "Visual Language Definition", desc: "Developed a refreshed visual system including colour palette and type scale." },
+      { title: "Website Design", desc: "Redesigned key marketing pages including homepage and product pages." },
+      { title: "Asset Production", desc: "Created a library of reusable marketing assets and templates." },
+      { title: "Ongoing Iteration", desc: "Continuously evolved the system based on campaign performance and feedback." }
     ]
   },
   {
-    id: 7, company: "Sylvera", year: "2023",
-    title: "Market Commentary", subtitle: "Sylvera",
+    id: 6,
+    company: "Sylvera", year: "2023",
+    title: "Market Commentary",
+    subtitle: "Sylvera",
     shortDesc: "The MVP of the Market Commentary was initially launched as a dashboard tile featuring a simple scrollable list of articles, limiting access to only a few articles at a time.",
-    tags: ["Feature Design", "UX", "Web App"], color: "#e5e8e0",
-    role: "Product Designer", platform: "Web Application", protected: false,
+    tags: ["Feature Design", "UX", "Web App"],
+    color: "#e5e8e0", role: "Product Designer", platform: "Web Application",
+    protected: false,
     thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Market%20Commentary-%20preview.jpg",
+    hero: null, images: [],
     overview: "Designed the evolution of Sylvera's Market Commentary feature — from a minimal MVP dashboard tile into a fully-fledged content experience for carbon market analysts and buyers.",
-    problem: "The MVP of the Market Commentary was initially launched as a dashboard tile featuring a simple scrollable list of articles. This limited access to only a few articles, making it difficult for users to browse, discover, and engage with the full breadth of market intelligence available on the platform.",
+    problem: "The MVP was launched as a dashboard tile with a simple scrollable list of articles, limiting access to only a few articles and making it difficult for users to browse and discover the full breadth of market intelligence.",
     process: [
-      { title: "MVP Review", desc: "Audited the existing dashboard tile implementation. Identified key limitations: content discoverability, navigation, and lack of filtering or search." },
-      { title: "User Research", desc: "Spoke with analysts and buyers to understand how they consume market commentary and what information they prioritise." },
-      { title: "IA & Content Model", desc: "Redesigned the content architecture to support browsing, filtering by topic and date, and article detail views." },
-      { title: "UI Design", desc: "Designed a dedicated Market Commentary section with an article index, preview cards, and a full reading experience." },
-      { title: "Iteration & Delivery", desc: "Tested with internal users and refined based on feedback. Delivered specs and prototypes for engineering handoff." }
+      { title: "MVP Review", desc: "Audited the existing dashboard tile. Identified key limitations in content discoverability and navigation." },
+      { title: "User Research", desc: "Spoke with analysts and buyers to understand how they consume market commentary." },
+      { title: "IA & Content Model", desc: "Redesigned the content architecture to support browsing, filtering, and article detail views." },
+      { title: "UI Design", desc: "Designed a dedicated Market Commentary section with article index and full reading experience." },
+      { title: "Iteration & Delivery", desc: "Tested with internal users and delivered specs for engineering handoff." }
     ]
   },
   {
-    id: 7, company: "StorkClub", year: "2022",
-    title: "Family-Building Benefits", subtitle: "Mobile iOS",
+    id: 7,
+    company: "StorkClub", year: "2022",
+    title: "Family-Building Benefits",
+    subtitle: "Mobile iOS",
     shortDesc: "Designed the iOS mobile experience for StorkClub — helping employees access and navigate family-building benefits including fertility, adoption, and surrogacy support.",
-    tags: ["Mobile Design", "iOS", "UX Research"], color: "#e8e0e8",
-    role: "Product Designer", platform: "iOS Mobile App",     protected: true, password: "stork2022",
-    overview: "Designed the mobile iOS experience for StorkClub — a benefits platform that helps employees understand, access, and manage family-building benefits such as fertility treatments, adoption support, egg freezing, and surrogacy.",
-    problem: "Benefits navigation is notoriously confusing. Users — often at emotionally sensitive life moments — struggled to understand what they were covered for, how to access it, and where they were in the process.",
+    tags: ["Mobile Design", "iOS", "UX Research"],
+    color: "#e8e0e8", role: "Product Designer", platform: "iOS Mobile App",
+    protected: true, password: "stork2022",
+    thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Family-Building%20Benefits%20-%20preview.jpg",
+    hero: null, images: [],
+    overview: "Designed the mobile iOS experience for StorkClub — a benefits platform helping employees access family-building benefits such as fertility treatments, adoption support, and surrogacy.",
+    problem: "Benefits navigation is confusing. Users — often at emotionally sensitive moments — struggled to understand what they were covered for and how to access it.",
     process: [
-      { title: "User Research", desc: "Empathy interviews with users going through fertility journeys. Identified emotional touchpoints, anxiety triggers, and information needs." },
-      { title: "Journey Mapping", desc: "Mapped the end-to-end user journey from benefit discovery through to care appointment booking and reimbursement." },
-      { title: "Content Design", desc: "Worked with clinical and benefits teams to simplify complex policy language into clear, supportive copy." },
-      { title: "iOS UI Design", desc: "Designed mobile screens following iOS Human Interface Guidelines. Focused on warmth, clarity, and reducing anxiety through calm visual design." },
-      { title: "Prototype & Test", desc: "Validated designs through moderated user testing. Iterated on navigation patterns and key conversion moments." }
+      { title: "User Research", desc: "Empathy interviews with users going through fertility journeys." },
+      { title: "Journey Mapping", desc: "Mapped the end-to-end journey from benefit discovery to appointment booking." },
+      { title: "Content Design", desc: "Simplified complex policy language into clear, supportive copy." },
+      { title: "iOS UI Design", desc: "Designed mobile screens following iOS Human Interface Guidelines." },
+      { title: "Prototype & Test", desc: "Validated designs through moderated user testing." }
     ]
   }
 ];
@@ -362,7 +383,6 @@ projects.forEach(p => {
       <div class="card-desc">${p.shortDesc}</div>
       <div class="card-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
       <div class="card-arrow">View project <span>→</span></div>
-      </div>
     </div>`;
   card.onclick = () => handleCardClick(p.id);
   grid.appendChild(card);
@@ -411,41 +431,54 @@ function renderProject(id) {
         <div class="project-top-row">
           <div class="project-eyebrow">${p.company} · ${p.year}</div>
         </div>
-      <h1 class="project-title">${p.title}<span>${p.subtitle}</span></h1>
-      <div class="project-meta-row">
-        <div class="pm-item"><div class="pm-label">Role</div><div class="pm-value">${p.role}</div></div>
-        <div class="pm-item"><div class="pm-label">Platform</div><div class="pm-value">${p.platform}</div></div>
-        <div class="pm-item"><div class="pm-label">Tags</div><div class="pm-value">${p.tags.join(' · ')}</div></div>
-      </div>
-      <div class="project-section"><h3>Overview</h3><p>${p.overview}</p></div>
-      <div class="project-section"><h3>The Challenge</h3><p>${p.problem}</p></div>
-      <div class="img-stack">
-        ${p.images && p.images.length > 0
-          ? p.images.map((src, i) => `<img src="${src}" alt="Project image ${i+1}" style="width:100%;aspect-ratio:16/7;object-fit:cover;display:block;">`).join('')
-          : `<div class="img-placeholder">Hero / Final Design</div>
-             <div class="img-placeholder">Research & Discovery</div>
-             <div class="img-placeholder">Wireframes</div>`}
-      </div>
-      <div class="project-section">
-        <h3>Design Process</h3>
-        <div class="process-steps">
-          ${p.process.map((s,i)=>`
-          <div class="process-step">
-            <div class="step-num">0${i+1}</div>
-            <div class="step-content">
-              <div class="step-title">${s.title}</div>
-              <div class="step-desc">${s.desc}</div>
-            </div>
-          </div>`).join('')}
+        <h1 class="project-title">${p.title}<span>${p.subtitle}</span></h1>
+        <div class="project-meta-row">
+          <div class="pm-item"><div class="pm-label">Role</div><div class="pm-value">${p.role}</div></div>
+          <div class="pm-item"><div class="pm-label">Platform</div><div class="pm-value">${p.platform}</div></div>
+          <div class="pm-item"><div class="pm-label">Tags</div><div class="pm-value">${p.tags.join(' · ')}</div></div>
         </div>
-      </div>
-      <div class="img-stack">
-        ${p.images && p.images.length > 1
-          ? p.images.slice(1).map((src, i) => `<img src="${src}" alt="Final design ${i+1}" style="width:100%;aspect-ratio:16/7;object-fit:cover;display:block;">`).join('')
-          : `<div class="img-placeholder">Final Design 1</div>
-             <div class="img-placeholder">Final Design 2</div>
-             <div class="img-placeholder">Final Design 3</div>
-             <div class="img-placeholder">Final Design 4</div>`}
+        <div class="project-section"><h3>Overview</h3><p>${p.overview}</p></div>
+        <div class="project-section"><h3>The Challenge</h3><p>${p.problem}</p></div>
+        ${p.images && p.images.length > 0 ? `
+        <div class="img-stack">
+          <img src="${p.images[0]}" alt="Project image 1">
+        </div>
+        <div class="project-section">
+          <h3>Design Process</h3>
+          <div class="process-steps">
+            ${p.process.map((s,i)=>`
+            <div class="process-step">
+              <div class="step-num">0${i+1}</div>
+              <div class="step-content">
+                <div class="step-title">${s.title}</div>
+                <div class="step-desc">${s.desc}</div>
+              </div>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="img-stack">
+          ${p.images.slice(1).map((src,i) => `<img src="${src}" alt="Project image ${i+2}">`).join('')}
+        </div>
+        ` : `
+        <div class="img-stack">
+          <div class="img-placeholder">Hero / Final Design</div>
+          <div class="img-placeholder">Research & Discovery</div>
+          <div class="img-placeholder">Wireframes</div>
+        </div>
+        <div class="project-section">
+          <h3>Design Process</h3>
+          <div class="process-steps">
+            ${p.process.map((s,i)=>`
+            <div class="process-step">
+              <div class="step-num">0${i+1}</div>
+              <div class="step-content">
+                <div class="step-title">${s.title}</div>
+                <div class="step-desc">${s.desc}</div>
+              </div>
+            </div>`).join('')}
+          </div>
+        </div>
+        `}
       </div>
     </div>`;
   document.getElementById('home').classList.remove('active');
