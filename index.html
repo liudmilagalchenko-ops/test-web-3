@@ -30,7 +30,7 @@
   .section-header { display: flex; justify-content: space-between; align-items: baseline; padding: 3rem 4rem 1.5rem; border-top: 1px solid var(--border); }
   .section-title { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
-  .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5px; background: var(--border); }
+  .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--border); }
   .project-card { background: var(--card-bg); cursor: pointer; transition: background 0.2s; display: flex; flex-direction: column; }
   .project-card:hover { background: var(--hover); }
   .card-thumb { width: 100%; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
@@ -69,6 +69,13 @@
 
   footer { display: flex; justify-content: space-between; align-items: center; padding: 2rem 4rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); }
   footer a:hover { color: var(--fg); }
+  .project-footer-buttons { display: flex; gap: 0.75rem; }
+  .footer-btn { border-radius: 999px; border: 1px solid var(--border); background: transparent; padding: 0.55rem 1.3rem; font-size: 0.8rem; font-family: 'Hanken Grotesk', sans-serif; cursor: pointer; color: var(--fg); letter-spacing: 0.04em; text-transform: uppercase; }
+  .footer-btn-primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .footer-btn:hover { border-color: var(--fg); }
+  .footer-btn-primary:hover { opacity: 0.9; }
+  .project-footer { border-top: none; padding: 0 2rem 4rem; }
+  .project-footer-inner { max-width: 760px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; width: 100%; }
 
   .page { display: none; }
   .page.active { display: block; }
@@ -76,7 +83,7 @@
   .project-hero { width: 100%; aspect-ratio: 21/9; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   .ph-label { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
   .project-wrapper { position: relative; padding: 4rem 2rem 6rem; }
-  .back-btn-outer { position: absolute; left: 4rem; top: 4rem; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--muted); cursor: pointer; transition: color 0.2s; letter-spacing: 0.01em; }
+  .back-btn-outer { position: sticky; top: calc(4rem + 32px); max-width: 760px; margin: 0 auto 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--muted); cursor: pointer; transition: color 0.2s; letter-spacing: 0.01em; }
   .back-btn-outer:hover { color: var(--fg); }
   .project-content { max-width: 760px; margin: 0 auto; }
   .project-top-row { display: flex; align-items: baseline; justify-content: flex-start; margin-bottom: 1rem; }
@@ -105,6 +112,8 @@
     .project-grid { grid-template-columns: 1fr; }
     .about { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 2rem; }
     footer { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+    .project-footer { padding: 0 1.5rem 3rem; }
+    .project-footer-inner { flex-direction: column; align-items: stretch; gap: 0.75rem; }
     .back-btn-outer { display: none; }
   }
 </style>
@@ -138,22 +147,22 @@
   <section class="hero">
     <p class="hero-label">Senior Product Designer · UX / UI</p>
     <h1>Designing digital products<br>that <span>matter</span></h1>
-    <p>I'm a Senior Product Designer at RES Digital Solutions, where I design and evolve digital products that optimise renewable asset performance. Passionate about building products with purpose — from early ideation through to final design.</p>
+    <p>I'm a Senior Product Designer at RES Digital Solutions, where I design and evolve digital products that optimise the technical and financial performance of renewable energy assets. Passionate about building products with purpose — from early ideation through to final design.</p>
   </section>
   <div class="section-header" id="projects-section">
     <span class="section-title">Selected Work</span>
-    <span class="section-title" style="font-size:0.7rem;">2022 – 2025</span>
+    <span class="section-title" style="font-size:0.7rem;">2020 – 2025</span>
   </div>
   <div class="project-grid" id="project-grid"></div>
   <section class="about" id="about-section">
     <div>
       <h2>About</h2>
-      <p>I'm a Senior Product Designer (UX/UI) at RES Digital Solutions, where I design and evolve digital products that optimise renewable asset performance.</p>
+      <p>I’m a Senior Product Designer (UX/UI) at RES Digital Solutions, where I design and evolve digital products that optimise the technical and financial performance of renewable energy assets. I work on B2B mobile and web tools that turn complex data and multi-step workflows into clear, usable experiences for asset managers, engineers, and analysts.</p>
       <p>Passionate about building products with purpose, I've led initiatives from early ideation through to final design. Previously, I worked on mobile and web design at Sylvera, a London-based startup focused on carbon project analytics and ratings.</p>
     </div>
     <div class="about-info">
       <div class="info-row"><div class="label">Currently</div><div class="value">Senior Product Designer, RES Digital Solutions</div></div>
-      <div class="info-row"><div class="label">Previously</div><div class="value">Product Designer, Sylvera · StorkClub</div></div>
+      <div class="info-row"><div class="label">Previously</div><div class="value">Product Designer, Sylvera · UI Designer / Brand Designer, Hint </div></div>
       <div class="info-row"><div class="label">Focus</div><div class="value">UX Strategy · UI Design · Design Systems · Mobile & Web</div></div>
       <div class="info-row"><div class="label">Based in</div><div class="value">London, UK</div></div>
     </div>
@@ -185,27 +194,6 @@
 const projects = [
   {
     id: 0,
-    company: "RES Digital Solutions", year: "2024–2025",
-    title: "Streamlining Wind Sites Repair Campaigns",
-    subtitle: "3Dx · Blade Platform",
-    shortDesc: "End-to-end redesign of the repair campaign workflow across 3Dx and Blade platforms — from damage detection through to repair sign-off.",
-    tags: ["End-to-End UX", "Workflow Design", "Web App"],
-    color: "#dde5e0", role: "Lead Product Designer", platform: "Web Application",
-    protected: true, password: "res2025",
-    thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Repair%20campaigns%20-%20preview.jpg",
-    hero: null, images: [],
-    overview: "Led the end-to-end redesign of the wind site repair campaign workflow across RES Digital's 3Dx and Blade platforms — connecting field inspection data, repair planning, task assignment, and sign-off into a single coherent experience.",
-    problem: "Repair campaign management was fragmented across tools — inspection data lived separately from repair tasks, sign-off workflows were email-based, and field teams had no mobile-friendly way to update progress.",
-    process: [
-      { title: "Discovery", desc: "Embedded with field engineers and asset managers to understand the full repair lifecycle." },
-      { title: "Service Design", desc: "Mapped the end-to-end service blueprint covering field, office, and system touchpoints." },
-      { title: "Flow & IA Design", desc: "Designed new campaign creation, task assignment, and progress tracking flows." },
-      { title: "UI Design", desc: "High-fidelity screens for both desktop and mobile-optimised contexts." },
-      { title: "Validation", desc: "Prototype testing with engineers and asset managers." }
-    ]
-  },
-  {
-    id: 1,
     company: "RES Digital Solutions", year: "2025",
     title: "Financial Management for Renewable Energy Assets",
     subtitle: "RES Digital",
@@ -223,6 +211,27 @@ const projects = [
       { title: "IA & Navigation", desc: "Designed the information architecture balancing overview dashboards with transaction-level detail." },
       { title: "Complex UI Design", desc: "Designed data-dense screens for revenue dashboards, cost ledgers, and invoice management." },
       { title: "Iteration", desc: "Multiple rounds of design review with finance stakeholders." }
+    ]
+  },
+  {
+    id: 1,
+    company: "RES Digital Solutions", year: "2024–2025",
+    title: "Streamlining Wind Sites Repair Campaigns",
+    subtitle: "3Dx · Blade Platform",
+    shortDesc: "End-to-end redesign of the repair campaign workflow across 3Dx and Blade platforms — from damage detection through to repair sign-off.",
+    tags: ["End-to-End UX", "Workflow Design", "Web App"],
+    color: "#dde5e0", role: "Lead Product Designer", platform: "Web Application",
+    protected: true, password: "res2025",
+    thumb: "https://raw.githubusercontent.com/liudmilagalchenko-ops/test-web-3/refs/heads/main/Repair%20campaigns%20-%20preview.jpg",
+    hero: null, images: [],
+    overview: "Led the end-to-end redesign of the wind site repair campaign workflow across RES Digital's 3Dx and Blade platforms — connecting field inspection data, repair planning, task assignment, and sign-off into a single coherent experience.",
+    problem: "Repair campaign management was fragmented across tools — inspection data lived separately from repair tasks, sign-off workflows were email-based, and field teams had no mobile-friendly way to update progress.",
+    process: [
+      { title: "Discovery", desc: "Embedded with field engineers and asset managers to understand the full repair lifecycle." },
+      { title: "Service Design", desc: "Mapped the end-to-end service blueprint covering field, office, and system touchpoints." },
+      { title: "Flow & IA Design", desc: "Designed new campaign creation, task assignment, and progress tracking flows." },
+      { title: "UI Design", desc: "High-fidelity screens for both desktop and mobile-optimised contexts." },
+      { title: "Validation", desc: "Prototype testing with engineers and asset managers." }
     ]
   },
   {
@@ -360,6 +369,7 @@ const projects = [
 ];
 
 let pendingProjectId = null;
+let currentProjectId = null;
 
 const grid = document.getElementById('project-grid');
 projects.forEach(p => {
@@ -421,6 +431,7 @@ function closeModal() {
 
 function renderProject(id) {
   const p = projects[id];
+  currentProjectId = id;
   document.getElementById('project-detail').innerHTML = `
     <div class="project-hero" style="background:${p.color};">
       ${p.hero ? `<img src="${p.hero}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : `<span class="ph-label">Project Images · Coming Soon</span>`}
@@ -480,13 +491,52 @@ function renderProject(id) {
         </div>
         `}
       </div>
-    </div>`;
+    </div>
+    <footer class="project-footer">
+      <div class="project-footer-inner">
+        <button class="footer-btn" onclick="goPrevProject()">Previous project</button>
+        <button class="footer-btn footer-btn-primary" onclick="goNextProject()">Next project →</button>
+      </div>
+    </footer>`;
   document.getElementById('home').classList.remove('active');
   document.getElementById('project-page').classList.add('active');
   window.scrollTo(0, 0);
 }
 
+function goNextProject() {
+  if (currentProjectId === null) return;
+  let nextId = currentProjectId + 1;
+  if (nextId >= projects.length) nextId = 0;
+  const nextProject = projects[nextId];
+  if (nextProject.protected) {
+    pendingProjectId = nextId;
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-error').style.display = 'none';
+    document.getElementById('modal').classList.add('show');
+    setTimeout(() => document.getElementById('pw-input').focus(), 100);
+  } else {
+    renderProject(nextId);
+  }
+}
+
+function goPrevProject() {
+  if (currentProjectId === null) return;
+  let prevId = currentProjectId - 1;
+  if (prevId < 0) prevId = projects.length - 1;
+  const prevProject = projects[prevId];
+  if (prevProject.protected) {
+    pendingProjectId = prevId;
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-error').style.display = 'none';
+    document.getElementById('modal').classList.add('show');
+    setTimeout(() => document.getElementById('pw-input').focus(), 100);
+  } else {
+    renderProject(prevId);
+  }
+}
+
 function goHome() {
+  currentProjectId = null;
   document.getElementById('project-page').classList.remove('active');
   document.getElementById('home').classList.add('active');
   window.scrollTo(0, 0);
